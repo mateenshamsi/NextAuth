@@ -6,9 +6,9 @@ import { sendEmail } from '@/helpers/mailer'
 connectDB()
 export async function POST(req:NextRequest,res:NextResponse){
     try{
-      const reqBody=req.json()
+      const reqBody=await req.json()
       const {username,email,password} = reqBody
-      console.log(reqBody)
+      
       const existinguser = await User.findOne({email})
        if(existinguser)
         {
@@ -21,7 +21,8 @@ export async function POST(req:NextRequest,res:NextResponse){
         })
         const savedUser = await newUser.save()
         console.log(savedUser) 
-         sendEmail
+         await sendEmail({email,emailType:"VERIFY",userId:savedUser._id})
+       return NextResponse.json({message:"User registered successfully",success:true,savedUser}) 
     }
     catch(err:any)
     { 

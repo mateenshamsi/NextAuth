@@ -1,5 +1,5 @@
  import mongoose from 'mongoose' 
- const connectDB = async()=>{
+ export async function connectDB() {
    
     try{
         mongoose.connect( process.env.MONGO_URI!)  
@@ -17,4 +17,3 @@
         console.log("Connection to database refused")
     }
  }
-module.exports=connectDB 

@@ -18,8 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     isVerified:{
         type:Boolean,
-        required:[true,"Please provide password"], 
-      
+        default:false       
     },
     isAdmin:{
         type:Boolean, 
