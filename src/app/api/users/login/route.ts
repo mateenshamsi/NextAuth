@@ -4,7 +4,8 @@ import {NextRequest,NextResponse} from 'next/server'
 import bcryptjs from 'bcryptjs'
 import { sendEmail } from '@/helpers/mailer'
 import jwt from 'jsonwebtoken'
-export async function POST(req:NextRequest,res:NextResponse){
+connectDB()
+export async function POST(req:NextRequest){
 try{
     const reqBody=await req.json()
     const {username,email,password} = reqBody
@@ -14,7 +15,7 @@ try{
     return  NextResponse.json({error:"Sorry could not find User"},{status:400})
 
         }
-        console.log("User exists")
+       
         const validPassword = await bcryptjs.compare(password,user.password)
         if(!validPassword)
             {
@@ -22,10 +23,19 @@ try{
            }
         const tokenData = {
             id:user._id, 
-            username:user.username,
+            user:user.username,
             email:user.email, 
         } 
-        jwt.sign()        
+        const token =  jwt.sign(tokenData,process.env.TOKEN_SECRET!,{expiresIn:'1h'})
+        const res = NextResponse.json({
+            message:"Logged In successfully",
+            success:true 
+        })       
+        res.cookies.set("token",token,{
+            httpOnly:true 
+        }) 
+        return res 
+
 
 }
 catch(error:any){

@@ -1,1 +1,4 @@
-{}
+{
+  "/api/users/me/route": "app/api/users/me/route.js",
+  "/api/users/logout/route": "app/api/users/logout/route.js"
+}
