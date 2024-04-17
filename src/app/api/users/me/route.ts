@@ -11,7 +11,7 @@ export async function POST(req:NextRequest){
         { 
             return NextResponse.json({message:"Error finding User"},{status:400})
         }
-        return NextResponse.json({message:"User Found"},{status:200})
+        return NextResponse.json({message:user},{status:200})
 
     }
     catch(error:any){
